@@ -1,4 +1,5 @@
 { pkgs ? import <nixpkgs> {}
+, lib ? import <nixpkgs/lib>
 , mylib
 , ...
 }@pkg-args:
@@ -10,6 +11,10 @@ let
     readDir
     listToAttrs
     filter
+    map
+  ;
+  inherit (lib)
+    removeSuffix
   ;
 
   pkg-files =
@@ -19,9 +24,11 @@ let
 
   pkg-pairs =
     map
-    (
-      file-name:
-      { name = file-name; value = import (./. + "/${file-name}") pkg-args; }
+    ( file-name:
+      {
+        name = removeSuffix ".nix" file-name;
+        value = import (./. + "/${file-name}") pkg-args;
+      }
     )
     pkg-files;
 
