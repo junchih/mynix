@@ -1,37 +1,22 @@
-{ pkgs ? import <nixpkgs> {}
-, lib ? import <nixpkgs/lib>
-, mylib
+{ pkgs ? import <nixpkgs> { }
+, mylib ? import ../lib { }
 , ...
 }@pkg-args:
 
 let
 
-  inherit (builtins)
-    attrNames
-    readDir
-    listToAttrs
-    filter
-    map
-  ;
-  inherit (lib)
-    removeSuffix
-  ;
+  inherit (mylib)
+    Y
+    readNixTree
+    treeApplyArgs
+    ;
 
-  pkg-files =
-    filter
-    (file-name: file-name != "default.nix")
-    (attrNames (readDir ./.));
+  build-mypkgs = mypkgs:
+    treeApplyArgs
+      (readNixTree (file: file == "default.nix") ./.)
+      (pkg-args // {
+        inherit mypkgs;
+      });
 
-  pkg-pairs =
-    map
-    ( file-name:
-      {
-        name = removeSuffix ".nix" file-name;
-        value = import (./. + "/${file-name}") pkg-args;
-      }
-    )
-    pkg-files;
-
-  pkgs = listToAttrs pkg-pairs;
-
-in pkgs
+in
+Y build-mypkgs

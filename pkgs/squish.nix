@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {}
+{ pkgs ? import <nixpkgs> { }
 , ...
 }:
 
@@ -6,9 +6,10 @@ let
 
   inherit (pkgs.stdenv)
     mkDerivation
-  ;
+    ;
 
-in mkDerivation rec {
+in
+mkDerivation rec {
   pname = "squish";
   version = "0.2.0";
   src = fetchGit {

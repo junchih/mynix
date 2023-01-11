@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {}
+{ pkgs ? import <nixpkgs> { }
 , ...
 }:
 
@@ -6,12 +6,13 @@ let
 
   inherit (pkgs.stdenv)
     mkDerivation
-  ;
+    ;
   inherit (builtins)
     fetchGit
-  ;
+    ;
 
-in mkDerivation rec{
+in
+mkDerivation rec{
 
   pname = "rtklib";
   version = "2.4.2-p13";
