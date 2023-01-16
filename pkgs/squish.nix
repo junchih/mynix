@@ -4,6 +4,9 @@
 
 let
 
+  inherit (builtins)
+    fetchGit
+    ;
   inherit (pkgs.stdenv)
     mkDerivation
     ;
