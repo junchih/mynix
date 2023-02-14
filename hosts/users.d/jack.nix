@@ -1,4 +1,9 @@
-{ configuration, lib, pkgs, ... }:
+{ configuration
+, lib
+, pkgs
+, ...
+}:
+
 let
 
   inherit (lib)
@@ -35,15 +40,12 @@ in
 
   ] ++ (optionals has-xserver [
 
-    fira-code
-    hanazono
     alacritty
-    firefox
 
   ]) ++ (optionals (hostname == "lbmsi") [
 
     nvtop
-    cudatoolkit
+    #cudatoolkit
 
   ]);
 
