@@ -45,7 +45,7 @@ in
   ]) ++ (optionals (hostname == "lbmsi") [
 
     nvtop
-    #cudatoolkit
+    cudatoolkit
 
   ]);
 

@@ -16,7 +16,6 @@ let
   hostname = configuration.networking.hostName;
 
   maybe-attrs = optionalAttrs (
-    hostname == "lbnuc" ||
     hostname == "lbmsi"
   );
 
@@ -35,7 +34,7 @@ in
     desktopManager.pantheon.enable = true;
   };
   programs.firefox = maybe-attrs {
-    enable = trace "Enable firefox web browser" true;
+    enable = trace "Using firefox web browser" true;
   };
   fonts = maybe-attrs {
     fonts = with pkgs; [
@@ -49,15 +48,14 @@ in
       sideload
       epiphany
       appcenter
-      elementary-videos
-      elementary-music
-      elementary-photos
+      #elementary-videos
+      #elementary-music
+      #elementary-photos
       elementary-mail
       elementary-calendar
       elementary-tasks
       elementary-calculator
       elementary-code
-      elementary-terminal
       elementary-screenshot
       elementary-camera
       elementary-feedback
