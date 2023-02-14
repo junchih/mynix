@@ -1,2 +1,2 @@
-# my-nixpkgs
-my customized nix packages
+# mynix
+Anything os related in nix, in here.
