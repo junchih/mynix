@@ -17,7 +17,7 @@ else echo "
 fi
 echo "
 in
-import (mynix + \"/hosts\") {
+import (mynix + \"/lbhost\") {
   networking.hostName = \"$(hostname)\";
   imports = [ ./hardware-configuration.nix ];
 }

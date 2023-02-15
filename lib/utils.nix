@@ -1,5 +1,5 @@
-{ pkgs ? import <nixpkgs> { }
-, lib ? pkgs.lib
+{ mylib
+, lib
 , ...
 }:
 

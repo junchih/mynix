@@ -1,9 +1,11 @@
 { pkgs ? import <nixpkgs> { }
-, mylib ? import ../lib { }
+, lib ? pkgs.lib
 , ...
 }@pkg-args:
 
 let
+
+  mylib = import ../lib { inherit lib; };
 
   inherit (mylib)
     Y
@@ -11,12 +13,11 @@ let
     treeApplyArgs
     ;
 
-  build-mypkgs = mypkgs:
+  mypkgs-generator =
+    mypkgs:
     treeApplyArgs
       (readNixTree (file: file == "default.nix") ./.)
-      (pkg-args // {
-        inherit mypkgs;
-      });
+      (pkg-args // { inherit mypkgs mylib; });
 
 in
-Y build-mypkgs
+Y mypkgs-generator

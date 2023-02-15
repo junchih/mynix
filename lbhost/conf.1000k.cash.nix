@@ -1,17 +1,24 @@
-{ configuration, lib, ... }:
+{ config
+, lib
+, ...
+}:
+
 let
 
-  inherit (builtins) trace;
-  inherit (lib) optionalAttrs;
+  inherit (builtins)
+    trace
+    ;
+  inherit (lib)
+    optionalAttrs
+    ;
 
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
 
   maybe-attrs = optionalAttrs (
     hostname == "lbvan"
   );
 
 in
-
 {
   security.acme = maybe-attrs {
     acceptTerms = true;

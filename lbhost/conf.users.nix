@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }@module-args:
+{ lib
+, pkgs
+, ...
+}@module-args:
+
 let
 
   inherit (builtins) attrNames readDir trace listToAttrs filter;
@@ -28,7 +32,6 @@ let
       user-files;
 
 in
-
 {
   # Set immutable user configurations
   users.mutableUsers = false;

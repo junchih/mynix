@@ -1,11 +1,6 @@
 { pkgs ? import <nixpkgs> { }
+, lib ? pkgs.lib
 , ...
 }@args:
 
-let
-
-  mylib = import ./lib args;
-  mypkgs = import ./pkgs (args // { inherit mylib; });
-
-in
-{ lib = mylib; } // mypkgs
+import ./pkgs { inherit pkgs lib; }

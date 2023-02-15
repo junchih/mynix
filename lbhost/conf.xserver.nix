@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , pkgs
 , ...
@@ -13,7 +13,7 @@ let
     optionalAttrs
     ;
 
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
 
   maybe-attrs = optionalAttrs (
     hostname == "lbmsi"

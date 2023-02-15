@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , pkgs
 , ...
@@ -9,8 +9,8 @@ let
   inherit (lib)
     optionals
     ;
-  hostname = configuration.networking.hostName;
-  has-xserver = configuration.services.xserver.enable or false;
+  hostname = config.networking.hostName;
+  has-xserver = config.services.xserver.enable or false;
 
 in
 
