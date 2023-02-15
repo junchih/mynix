@@ -10,7 +10,7 @@
   system.stateVersion = "21.11"; # Did you read the comment?
 
   # Set your time zone.
-  time.timeZone = "Asia/Hong_Kong";
+  time.timeZone = "Asia/Singapore";
   # Enable unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -18,6 +18,10 @@
   services.journald.rateLimitInterval = "60s";
   services.journald.rateLimitBurst = 300;
 
+  # Nix store space optimising
+  nix.settings = {
+    auto-optimise-store = true;
+  };
   nix.gc = {
     automatic = true;
     dates = "03:15";
@@ -25,7 +29,6 @@
     options = "--delete-older-than 7d";
   };
 
-  networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
   networking.enableIPv6 = true;
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
