@@ -25,9 +25,9 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp0s25.useDHCP = true;
-  networking.interfaces.wlp2s0.useDHCP = false;
-  networking.interfaces.wlp2s0.ipv4.addresses = [{
+  networking.interfaces.wlp2s0.useDHCP = true;
+  networking.interfaces.enp0s25.useDHCP = false;
+  networking.interfaces.enp0s25.ipv4.addresses = [{
     address = "192.168.132.213";
     prefixLength = 24;
   }];
