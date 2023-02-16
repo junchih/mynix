@@ -1,4 +1,6 @@
-{ pkgs, ... }:
+{ pkgs
+, ...
+}:
 
 {
   description = "Lucy Chen";

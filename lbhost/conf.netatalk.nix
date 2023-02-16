@@ -1,4 +1,4 @@
-{ config
+{ configuration
 , lib
 , ...
 }:
@@ -11,7 +11,7 @@ let
   inherit (lib)
     optionalAttrs
     ;
-  hostname = config.networking.hostName;
+  hostname = configuration.networking.hostName;
 
   maybe-attrs = optionalAttrs (
     hostname == "lbmsi"
@@ -23,7 +23,7 @@ in
     enable = trace "Enable Netatalk service" true;
     settings = {
       Global = {
-        "mimic model" = "Xserve";
+        "mimic model" = "Xserve3,1";
         "hosts allow" = "192.168.132.0/24 172.19.132.0/24";
       };
       Homes = {

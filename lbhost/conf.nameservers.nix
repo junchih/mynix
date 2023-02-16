@@ -1,4 +1,4 @@
-{ config
+{ configuration
 , lib
 , ...
 }:
@@ -12,8 +12,8 @@ let
     optionals
     optionalAttrs
     ;
-  hostname = config.networking.hostName;
-  has-ipv6 = config.networking.enableIPv6 or false;
+  hostname = configuration.networking.hostName;
+  has-ipv6 = configuration.networking.enableIPv6 or false;
 
   maybe = optionalAttrs (
     hostname == "lbmsi" ||
@@ -39,7 +39,7 @@ in
   };
 
   networking.nameservers =
-    if config.services.dnscrypt-proxy2.enable or false then
+    if configuration.services.dnscrypt-proxy2.enable or false then
       [ "127.0.0.1" ]
     else
       [ "1.1.1.1" "1.0.0.1" ];

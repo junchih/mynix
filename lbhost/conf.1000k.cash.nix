@@ -1,4 +1,4 @@
-{ config
+{ configuration
 , lib
 , ...
 }:
@@ -12,7 +12,7 @@ let
     optionalAttrs
     ;
 
-  hostname = config.networking.hostName;
+  hostname = configuration.networking.hostName;
 
   maybe-attrs = optionalAttrs (
     hostname == "lbvan"

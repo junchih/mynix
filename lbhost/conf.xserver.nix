@@ -1,4 +1,4 @@
-{ config
+{ configuration
 , lib
 , pkgs
 , ...
@@ -13,7 +13,7 @@ let
     optionalAttrs
     ;
 
-  hostname = config.networking.hostName;
+  hostname = configuration.networking.hostName;
 
   maybe-attrs = optionalAttrs (
     hostname == "lbmsi"
@@ -25,9 +25,6 @@ in
   services.xserver = maybe-attrs {
     # Enable the X11 windowing system.
     enable = trace "Enable X11 windowing system" true;
-    resolutions = [
-      { x = 1920; y = 1080; }
-    ];
     # Enable the Desktop Environments.
     displayManager.lightdm.enable = true;
     displayManager.lightdm.greeters.pantheon.enable = true;
@@ -48,9 +45,9 @@ in
       sideload
       epiphany
       appcenter
-      #elementary-videos
-      #elementary-music
-      #elementary-photos
+      elementary-videos
+      elementary-music
+      elementary-photos
       elementary-mail
       elementary-calendar
       elementary-tasks

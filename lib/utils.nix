@@ -22,9 +22,6 @@ let
 
 in
 rec {
-
-  Y = X: X (Y X);
-
   readNixTree = ignore-f: path:
     let
 

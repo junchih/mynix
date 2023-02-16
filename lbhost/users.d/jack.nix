@@ -1,4 +1,4 @@
-{ config
+{ configuration
 , lib
 , pkgs
 , ...
@@ -9,45 +9,27 @@ let
   inherit (lib)
     optionals
     ;
-  hostname = config.networking.hostName;
-  has-xserver = config.services.xserver.enable or false;
+  hostname = configuration.networking.hostName;
+  has-X = configuration.services.xserver.enable or false;
 
 in
-
 {
   description = "Jack Mao";
   isNormalUser = true;
   createHome = true;
   useDefaultShell = true;
   extraGroups = [ "wheel" ];
-  packages = with pkgs; [
-
+  packages = with pkgs;
     # normal life
-    wget
-    curl
-    croc
-    tree
-    dnsutils
-    unzip
-    unrar
-    gnutar
-
-    # development environment
-    direnv
-    git
-    gnumake
-    ctags
-
-  ] ++ (optionals has-xserver [
-
-    alacritty
-
-  ]) ++ (optionals (hostname == "lbmsi") [
-
-    nvtop
-    cudatoolkit
-
-  ]);
+    [ wget curl croc tree dnsutils unzip unrar gnutar ] ++
+    # devel environment
+    [ direnv git gnumake ctags ] ++
+    (optionals has-X
+      [ alacritty vlc ]
+    ) ++
+    (optionals (hostname == "lbmsi")
+      [ nvtop /*cudatoolkit*/ ]
+    );
 
   hashedPassword = "$6$tuw/Fyhe6sY$8v4nfQ/1Cj.JNB8POt/N9ozwMdKt3RSCB7yOFfnbBAWw0Erhl5YoWHOM0W0Jy0HvtjCN.rTfJnVf7geEz/2UX0";
 

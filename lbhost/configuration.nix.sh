@@ -4,21 +4,22 @@ echo "
 let
   mynix =
 "
-if [[ -v DEBUG ]];
+if [[ -v RELEASE ]];
 then echo "
-    ./.;
+    fetchTarball
+      \"https://github.com/junchih/mynix/archive/\" +
+      \"$(git rev-parse HEAD)\" +
+      \".tar.gz\";
 "
 else echo "
-    builtins.fetchGit {
-      url = \"$(pwd)/../.git\";
-      rev = \"$(git rev-parse HEAD)\";
-    };
+    $(pwd)/..;
 "
 fi
 echo "
 in
-import (mynix + \"/lbhost\") {
+import (mynix + \"/lbhost\")
+({ config, pkgs, lib, ... }: {
   networking.hostName = \"$(hostname)\";
   imports = [ ./hardware-configuration.nix ];
-}
+})
 "

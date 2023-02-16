@@ -1,16 +1,21 @@
-_instance:
+__seed:
 { pkgs ? import <nixpkgs> { }
 , lib ? pkgs.lib
-, config
 , ...
-}@module-args:
+}@_module-args:
 
 let
 
+  mypkgs = import ../. module-args;
+  mylib = mypkgs.lib;
+  module-args = _module-args // { inherit mypkgs mylib; };
+
   inherit (builtins)
+    trace
     readDir
     attrNames
     foldl'
+    isFunction
     ;
   inherit (lib)
     filterAttrs
@@ -18,53 +23,50 @@ let
     hasSuffix
     recursiveUpdate
     ;
+  inherit (mylib)
+    Y
+    ;
 
-  instance = recursiveUpdate { networking.hostName = "nixos"; } _instance;
-  host-base = import (./. + "/host.${instance.networking.hostName}.nix") module-args;
-
-  list-partitions =
-    path:
+  seed-section = module-args:
+    recursiveUpdate
+      { networking.hostName = "nixos"; }
+      (if isFunction __seed then __seed module-args else __seed);
+  host-name =
     let
-      dir-content =
-        filterAttrs
-          (
-            file-name: file-type:
-              file-type == "regular" &&
-              hasPrefix "conf." file-name &&
-              hasSuffix ".nix" file-name
-          )
-          (readDir path);
-      list =
-        map
-          (file-name: path + ("/" + file-name))
-          (attrNames dir-content);
+      seed-conf = seed-section module-args;
+      name = seed-conf.networking.hostName;
     in
-    list;
+    trace "Host Name: ${name}" name;
+  host-section = import (./. + "/host.${host-name}.nix");
 
-  imports = foldl' (a: b: a ++ b) [ ]
-    (
-      [
-        (instance.imports or [ ])
-        (host-base.imports or [ ])
-      ] ++ (
-        map
-          (file: (import file module-args).imports or [ ])
-          (list-partitions ./.)
-      )
-    );
+  list-sections = path:
+    let
+      dir-content = filterAttrs
+        (
+          file-name: file-type:
+            file-type == "regular" &&
+            hasPrefix "conf." file-name &&
+            hasSuffix ".nix" file-name
+        )
+        (readDir path);
+      sections = map
+        (file-name:
+          import (path + ("/" + file-name)))
+        (attrNames dir-content);
+    in
+    sections;
 
-  configs = foldl' recursiveUpdate { }
-    (
-      [
-        host-base
-      ] ++ (
-        map
-          (file: import file module-args)
-          (list-partitions ./.)
-      ) ++ [
-        instance
-      ]
-    );
+  sections = [ host-section ] ++ (list-sections ./.) ++ [ seed-section ];
+
+  configuration-wrapper = configuration:
+    let
+      configs = map
+        (section: section (module-args // { inherit configuration; }))
+        sections;
+      imports = foldl' (a: b: a ++ b) [ ]
+        (map (conf: conf.imports or [ ]) configs);
+    in
+    (foldl' recursiveUpdate { } configs) // { inherit imports; };
 
 in
-configs // { imports = imports; }
+Y configuration-wrapper
