@@ -6,10 +6,11 @@ let
 "
 if [[ -v RELEASE ]];
 then echo "
-    fetchTarball
+    fetchTarball (
       \"https://github.com/junchih/mynix/archive/\" +
       \"$(git rev-parse HEAD)\" +
-      \".tar.gz\";
+      \".tar.gz\"
+    );
 "
 else echo "
     $(pwd)/..;
