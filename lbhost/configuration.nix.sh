@@ -6,7 +6,7 @@ let
 "
 if [[ -v RELEASE ]];
 then echo "
-    fetchTarball (
+    builtins.fetchTarball (
       \"https://github.com/junchih/mynix/archive/\" +
       \"$(git rev-parse HEAD)\" +
       \".tar.gz\"
