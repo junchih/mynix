@@ -13,7 +13,7 @@ install: configuration.nix
 	mkdir -p /etc/nixos && cp configuration.nix /etc/nixos/
 
 
-json: clean configuration.json
+json: configuration.json
 
 
 configuration.json: configuration.nix

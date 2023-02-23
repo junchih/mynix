@@ -15,14 +15,14 @@ let
 
   hostname = configuration.networking.hostName;
 
-  maybe-attrs = optionalAttrs (
+  maybe = optionalAttrs (
     hostname == "lbmsi"
   );
 
 in
 
 {
-  services.xserver = maybe-attrs {
+  services.xserver = maybe {
     # Enable the X11 windowing system.
     enable = trace "Enable X11 windowing system" true;
     # Enable the Desktop Environments.
@@ -30,16 +30,7 @@ in
     displayManager.lightdm.greeters.pantheon.enable = true;
     desktopManager.pantheon.enable = true;
   };
-  programs.firefox = maybe-attrs {
-    enable = trace "Using firefox web browser" true;
-  };
-  fonts = maybe-attrs {
-    fonts = with pkgs; [
-      fira-code
-      hanazono
-    ];
-  };
-  environment.pantheon = maybe-attrs {
+  environment.pantheon = maybe {
     excludePackages = with pkgs.pantheon; [
       touchegg
       sideload

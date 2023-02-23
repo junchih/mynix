@@ -21,11 +21,11 @@ in
   extraGroups = [ "wheel" ];
   packages = with pkgs;
     # normal life
-    [ wget curl croc tree dnsutils unzip unrar gnutar ] ++
+    [ dnsutils ] ++
     # devel environment
     [ direnv git gnumake ctags ] ++
     (optionals has-X
-      [ alacritty vlc ]
+      [ alacritty ]
     ) ++
     (optionals (hostname == "lbmsi")
       [ nvtop /*cudatoolkit*/ ]
