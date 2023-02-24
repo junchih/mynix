@@ -57,7 +57,7 @@ in
       default = "";
       type = types.str;
       description = mdDoc ''
-        Domain name to synchronize.
+        The sub domain name to synchronize. See duckdns url format.
       '';
     };
 
@@ -72,6 +72,18 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    assertions = [
+      {
+        assertion = cfg.domain != "";
+        message = "services.duckdns.domain shall not be empty!";
+      }
+      {
+        assertion = cfg.token != "";
+        message = "services.duckdns.token missing value!";
+      }
+    ];
+
     systemd.services.duckdns-updater = {
       script =
         let
@@ -92,6 +104,7 @@ in
         Type = "oneshot";
       };
     };
+
     systemd.timers.duckdns-updater = {
       description = "Update duckdns";
       wantedBy = [ "timers.target" ];
@@ -101,5 +114,6 @@ in
         Unit = "duckdns-updater.service";
       };
     };
+
   };
 }

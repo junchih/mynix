@@ -31,7 +31,7 @@ let
 in
 {
   imports = [ ./modules ];
-  services.duckdns = optionalAttrs has-ipv6 {
+  services.duckdns = maybe {
     enable = trace "Enabled duckdns updater for ipv6 only" true;
     ipv4 = false;
     ipv6 = true;
