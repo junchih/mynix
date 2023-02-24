@@ -1,1 +1,7 @@
-{ ... }: { }
+{ ... }:
+
+{
+  imports = [
+    ./services/duckdns.nix
+  ];
+}
