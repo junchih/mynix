@@ -24,11 +24,11 @@ in
     settings = {
       Global = {
         "mimic model" = "Xserve3,1";
-        "hosts allow" = "192.168.132.0/24 172.19.132.0/24";
       };
       Homes = {
         "basedir regex" = "/home";
         "path" = "Shared";
+        "hosts allow" = "192.168.132.0/24 172.19.132.0/24";
       };
     };
   };
