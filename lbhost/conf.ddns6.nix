@@ -1,4 +1,5 @@
 { configuration
+, config
 , lib
 , ...
 }:
@@ -16,6 +17,11 @@ let
 
   hostname = configuration.networking.hostName;
   has-ipv6 = configuration.networking.enableIPv6 or false;
+  duckdns-token =
+    configuration.services.duckdns.token or
+      config.services.duckdns.token or
+        "";
+  has-token = duckdns-token != "";
 
   host2domain = {
     lbmsi = "24088207";
@@ -30,9 +36,16 @@ let
 
 in
 {
-  imports = [ ./modules ];
+  imports = [
+    ./modules/services/duckdns.nix
+  ];
   services.duckdns = maybe {
-    enable = trace "Enabled duckdns updater for ipv6 only" true;
+    enable =
+      if has-token then
+        trace "Enabled duckdns updater for ipv6 only" true
+      else
+        trace "Disabled duckdns updater, missing token" false
+    ;
     ipv4 = false;
     ipv6 = true;
     domain = getAttr hostname host2domain;

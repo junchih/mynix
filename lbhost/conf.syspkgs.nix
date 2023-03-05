@@ -19,7 +19,6 @@ in
     unzip
     unrar
     gnutar
-    croc
   ] ++ (optionals has-X [
     neovide
     vlc

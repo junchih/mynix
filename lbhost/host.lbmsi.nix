@@ -10,7 +10,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "lbmsi"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
+  networking.wireless.networks = {
+    "Cheesefield" = {
+      pskRaw = "5c7f964515eea87a1cad488e45fc2f3ba5276b757e36bd8ec7c52d1e77a6dbc1";
+    };
+    # "free.wifi" = {};
+  };
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
@@ -19,8 +25,9 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.eno1.useDHCP = false;
-  networking.interfaces.eno1.ipv4.addresses = [{
+  networking.interfaces.eno1.useDHCP = true;
+  networking.interfaces.wlp3s0.useDHCP = false;
+  networking.interfaces.wlp3s0.ipv4.addresses = [{
     address = "192.168.132.214";
     prefixLength = 24;
   }];

@@ -7,5 +7,14 @@ with builtins;
     useDns = false;
     permitRootLogin = "no";
     passwordAuthentication = false;
+    ports = [
+      22
+      44307
+      44321
+      44335
+      44349
+      44363
+      44377
+    ];
   };
 }

@@ -1,35 +1,39 @@
-{ lib
-, pkgs
+{ pkgs
+, lib
 , ...
 }@module-args:
 
 let
 
-  inherit (builtins) attrNames readDir trace listToAttrs filter;
-  inherit (lib) hasSuffix removeSuffix;
+  inherit (builtins)
+    trace
+    attrNames
+    readDir
+    filter
+    ;
+  inherit (lib)
+    hasSuffix
+    removeSuffix
+    genAttrs
+    mapAttrs
+    ;
+
+  import-file = file: import file module-args;
 
   list-user-files =
     path:
     let
-      file-names =
-        filter
-          (file-name: hasSuffix ".nix" file-name)
-          (attrNames (readDir path));
+      file-names = filter
+        (file-name: hasSuffix ".nix" file-name)
+        (attrNames (readDir path));
+      user-names = map (removeSuffix ".nix") file-names;
     in
-    map
-      (file-name: {
-        user = removeSuffix ".nix" file-name;
-        file = path + ("/" + file-name);
-      })
-      file-names;
+    genAttrs user-names (name: path + "/${name}.nix");
 
-  include-file = file: import file module-args;
-
-  read-user-confs =
-    user-files:
-    map
-      ({ user, file }: { user = user; conf = include-file file; })
-      user-files;
+  read-user-confs = mapAttrs
+    (user: conf-file:
+      trace "register user: ${user}" (import-file conf-file)
+    );
 
 in
 {
@@ -44,20 +48,5 @@ in
   # set ~/bin into $PATH
   environment.homeBinInPath = true;
 
-  users.users =
-    let
-      user-confs = read-user-confs (list-user-files (./users.d));
-      kv-pairs =
-        map
-          (
-            { user, conf }:
-            {
-              name = trace "Register user: ${conf.description or "||||||"}(${user})" user;
-              value = conf;
-            }
-          )
-          user-confs;
-      users-conf = listToAttrs kv-pairs;
-    in
-    users-conf;
+  users.users = read-user-confs (list-user-files (./users.d));
 }

@@ -19,8 +19,11 @@ fi
 echo "
 in
 import (mynix + \"/lbhost\")
-({ config, pkgs, lib, ... }: {
-  networking.hostName = \"$(hostname)\";
-  imports = [ ./hardware-configuration.nix ];
-})
+  ({ config, pkgs, lib, ... }: {
+    networking.hostName = \"$(hostname)\";
+    imports = [
+      ./hardware-configuration.nix
+      ./vault.nix
+    ];
+  })
 "

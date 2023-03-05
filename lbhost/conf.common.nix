@@ -15,8 +15,13 @@
   nixpkgs.config.allowUnfree = true;
 
   # Journald logging rate limit
-  services.journald.rateLimitInterval = "60s";
-  services.journald.rateLimitBurst = 300;
+  services.journald = {
+    rateLimitInterval = "60s";
+    rateLimitBurst = 300;
+    extraConfig = ''
+      SystemMaxUse=1.5G
+    '';
+  };
 
   # Nix store space optimising
   nix.settings = {

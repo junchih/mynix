@@ -14,7 +14,7 @@ let
   hostname = configuration.networking.hostName;
 
   maybe-attrs = optionalAttrs (
-    hostname == "lbmsi"
+    hostname == "lbmsi" || hostname == "lbnuc"
   );
 
 in

@@ -24,13 +24,17 @@ configuration.json: configuration.nix
 		> $@
 
 
-configuration.nix: hardware-configuration.nix
+configuration.nix: hardware-configuration.nix vault.nix
 
 
 hardware-configuration.nix: makefile
 	echo '{...}: {}' > hardware-configuration.nix
 
 
+vault.nix: makefile
+	echo '{...}: {}' > vault.nix
+
+
 clean:
 	rm -rfv configuration.{nix,json}
-	rm -rfv hardware-configuration.nix
+	rm -rfv hardware-configuration.nix vault.nix
