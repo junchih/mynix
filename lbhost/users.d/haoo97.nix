@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , ...
 }:
 
@@ -14,5 +15,6 @@
 
   # hashedPassword is the result of `mkpasswd 'I am security!'`
   hashedPassword = "$y$j9T$YiEyoZysjoNDw0G38EdAW/$feB1MzKH7EjdH.K/63.8jAHNVgOJ1Dt/LcQlvyNwq05";
-  openssh.authorizedKeys.keys = [ ];
+  openssh.authorizedKeys.keys = lib.splitString "\n"
+    (builtins.readFile ./nihilist97.github.keys);
 }
