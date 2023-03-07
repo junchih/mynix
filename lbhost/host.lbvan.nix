@@ -17,11 +17,11 @@
   networking.hostName = "lbvan"; # Define your hostname.
 
   # network configuration
-  networking.interfaces.enp1s0.useDHCP = true;
+  networking.interfaces.ens3.useDHCP = true;
   # ipv6 pool
-  networking.interfaces.enp1s0.ipv6.addresses =
+  networking.interfaces.ens3.ipv6.addresses =
     let
-      net = "2401:c080:1400:6fa8:77a1:";
+      net = "2401:c080:1400:484d:77a1:";
       netlen = 64;
       hosts = [
         # original
