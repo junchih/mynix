@@ -19,7 +19,7 @@
     rateLimitInterval = "60s";
     rateLimitBurst = 300;
     extraConfig = ''
-      SystemMaxUse=1.5G
+      SystemMaxUse=1G
     '';
   };
 
@@ -35,6 +35,10 @@
   };
 
   networking.enableIPv6 = true;
+  # The tempAddresses for IPv6 will issue a random v6 IP, which is not able to
+  # identify the server. But will leak privacy protecting for private host.
+  # Set this for each interface if needed.
+  networking.tempAddresses = "disabled";
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.

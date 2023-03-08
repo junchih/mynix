@@ -7,14 +7,18 @@ let
   mylib-wrapper =
     mylib:
     let
-      lib-args = { inherit lib mylib; };
-      funny = import ./funny.nix lib-args;
-      utils = import ./utils.nix lib-args;
+      importing-args = { inherit lib mylib; };
     in
     {
-      inherit (funny)
+      inherit (import ./funny.nix importing-args)
         Y S K I B C W;
-      inherit (utils)
+      inherit (import ./functional.nix importing-args)
+        binding
+        foldr'
+        rapply
+        lapply
+        ;
+      inherit (import ./utils.nix importing-args)
         readNixTree
         treeApplyArgs
         ;

@@ -26,7 +26,6 @@ let
   host2domain = {
     lbmsi = "24088207";
     lbnuc = "61687290";
-    lbvan = "782fe8f0";
   };
 
   maybe = optionalAttrs (
