@@ -7,7 +7,7 @@ let
 
   inherit (builtins)
     trace
-    eleAt
+    elemAt
     fetchTarball
     ;
   inherit (lib)
@@ -20,15 +20,15 @@ let
   mailserver-url =
     let
       vers = splitVersion version;
-      tag = "nixos-${eleAt vers 0}.${eleAt vers 1}";
+      tag = "nixos-${elemAt vers 0}.${elemAt vers 1}";
     in
     "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/" +
     "-/archive/${tag}/nixos-mailserver-${tag}.tar.gz";
-  mailserver-sha256 = "";
+  mailserver-sha256 = "1h1r4x2ffqwyk0ql6kjvcpg1bdiimyzhrsvn49702fsgzpx57fhd";
 
   hostname = configuration.networking.hostName;
   acting-condition = (
-    hostname == "lbdot"
+    hostname == "lbnon"
   );
 in
 {
@@ -45,9 +45,8 @@ in
       "demo@func.xyz" = {
         # nix-shell -p mkpasswd --run 'mkpasswd -sm bcrypt'
         hashedPassword = "!";
-        alias = [ ];
+        aliases = [ ];
       };
     };
-    certificateScheme = 3;
   };
 }

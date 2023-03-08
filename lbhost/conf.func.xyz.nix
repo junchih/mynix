@@ -12,7 +12,7 @@ let
     ;
   hostname = configuration.networking.hostName;
   maybe = optionalAttrs (
-    hostname == "lbdot"
+    hostname == "lbnon"
   );
 in
 {
