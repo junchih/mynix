@@ -19,7 +19,7 @@
     rateLimitInterval = "60s";
     rateLimitBurst = 300;
     extraConfig = ''
-      SystemMaxUse=1.5G
+      SystemMaxUse=1G
     '';
   };
 
