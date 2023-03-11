@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -7,7 +7,7 @@ let
   inherit (lib)
     optionals
     ;
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
 in
 {
   boot.supportedFilesystems =

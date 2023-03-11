@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -10,7 +10,7 @@ let
   inherit (lib)
     optionalAttrs
     ;
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
 
   maybe = optionalAttrs (
     hostname == "none"

@@ -1,5 +1,4 @@
-{ configuration
-, config
+{ config
 , lib
 , ...
 }:
@@ -15,12 +14,9 @@ let
     optionalAttrs
     ;
 
-  hostname = configuration.networking.hostName;
-  has-ipv6 = configuration.networking.enableIPv6 or false;
-  duckdns-token =
-    configuration.services.duckdns.token or
-      config.services.duckdns.token or
-        "";
+  hostname = config.networking.hostName;
+  has-ipv6 = config.networking.enableIPv6 or false;
+  duckdns-token = config.services.duckdns.token or "";
   has-token = duckdns-token != "";
 
   host2domain = {

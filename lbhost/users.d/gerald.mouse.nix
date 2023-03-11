@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , pkgs
 , lib
 , ...
@@ -12,6 +12,6 @@
   extraGroups = [ ];
   packages = with pkgs; [ ];
 
-  hashedPassword = configuration.users.users.jack.hashedPassword;
+  hashedPassword = config.users.users.jack.hashedPassword;
   openssh.authorizedKeys.keys = [ ];
 }

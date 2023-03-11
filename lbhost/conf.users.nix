@@ -1,4 +1,5 @@
-{ pkgs
+{ config
+, pkgs
 , lib
 , ...
 }@module-args:
@@ -7,33 +8,30 @@ let
 
   inherit (builtins)
     trace
-    attrNames
     readDir
-    filter
     ;
   inherit (lib)
     hasSuffix
     removeSuffix
-    genAttrs
-    mapAttrs
+    mapAttrs'
+    filterAttrs
+    nameValuePair
+    ;
+  inherit (config.lib.mylib)
+    binding
     ;
 
-  import-file = file: import file module-args;
-
-  list-user-files =
-    path:
-    let
-      file-names = filter
-        (file-name: hasSuffix ".nix" file-name)
-        (attrNames (readDir path));
-      user-names = map (removeSuffix ".nix") file-names;
-    in
-    genAttrs user-names (name: path + "/${name}.nix");
-
-  read-user-confs = mapAttrs
-    (user: conf-file:
-      trace "register user: ${user}" (import-file conf-file)
-    );
+  user-configs = binding
+    (mapAttrs'
+      (file-name: _:
+        let user = removeSuffix ".nix" file-name;
+        in nameValuePair
+          (trace "register user: ${user}" user)
+          (import (./users.d + ("/" + file-name)) module-args)))
+    (filterAttrs
+      (file-name: file-type:
+        file-type == "regular" && hasSuffix ".nix" file-name))
+    readDir ./users.d;
 
 in
 {
@@ -48,5 +46,5 @@ in
   # set ~/bin into $PATH
   environment.homeBinInPath = true;
 
-  users.users = read-user-confs (list-user-files (./users.d));
+  users.users = user-configs;
 }

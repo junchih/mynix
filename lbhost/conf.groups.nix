@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -13,8 +13,7 @@ let
     genAttrs
     mapAttrsToList
     ;
-  users = (configuration.users.users or { })
-    // (configuration.users.extraUsers or { });
+  users = (config.users.users or { }) // (config.users.extraUsers or { });
   user-groups = mapAttrsToList
     (user: attr:
       let

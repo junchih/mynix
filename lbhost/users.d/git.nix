@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , pkgs
 , lib
 , ...
@@ -22,8 +22,8 @@ let
       (attr.openssh.authorizedKeys.keys or [ ]) != [ ]
     )
     (
-      (configuration.users.users or { }) //
-      (configuration.users.extraUsers or { })
+      (config.users.users or { }) //
+      (config.users.extraUsers or { })
     );
   user-ssh-keys = mapAttrsToList
     (user: attr:

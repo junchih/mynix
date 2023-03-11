@@ -1,7 +1,6 @@
-{ configuration
+{ config
 , pkgs
 , lib
-, mylib
 , ...
 }:
 
@@ -20,15 +19,14 @@ let
     nameValuePair
     filterAttrs
     ;
-  inherit (mylib)
+  inherit (config.lib.mylib)
     binding
     ;
 
-  hostname = configuration.networking.hostName;
-  acting-condition = (
+  hostname = config.networking.hostName;
+  maybe = optionalAttrs (
     hostname == "dot-vc2"
   );
-  maybe = optionalAttrs acting-condition;
 
   mx-webroot = pkgs.writeTextDir "index.html" ''
     <!DOCTYPE html>
@@ -37,22 +35,6 @@ let
     <body>Hello World!</body>
     </html>
   '';
-
-  mailserver-module =
-    if acting-condition then
-      fetchTarball
-        {
-          url =
-            let
-              vers = splitVersion version;
-              tag = "nixos-${elemAt vers 0}.${elemAt vers 1}";
-            in
-            "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/" +
-            "-/archive/${tag}/nixos-mailserver-${tag}.tar.gz";
-          sha256 = "1h1r4x2ffqwyk0ql6kjvcpg1bdiimyzhrsvn49702fsgzpx57fhd";
-        }
-    else
-      ./modules/dummy/mailserver.nix;
 
   email-accounts = binding
     (mapAttrs'
@@ -73,13 +55,25 @@ let
         (conf.isNormalUser or (! (conf.isSystemUser or false)))
       ))
     (
-      (configuration.users.users or { }) //
-      (configuration.users.extraUsers or { })
+      (config.users.users or { }) //
+      (config.users.extraUsers or { })
     );
 in
 {
 
-  imports = [ mailserver-module ];
+  imports = [
+    (fetchTarball
+      {
+        url =
+          let
+            vers = splitVersion version;
+            tag = "nixos-${elemAt vers 0}.${elemAt vers 1}";
+          in
+          "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/" +
+          "-/archive/${tag}/nixos-mailserver-${tag}.tar.gz";
+        sha256 = "1h1r4x2ffqwyk0ql6kjvcpg1bdiimyzhrsvn49702fsgzpx57fhd";
+      })
+  ];
 
   security.acme = maybe {
     acceptTerms = true;
@@ -87,7 +81,7 @@ in
   };
 
   services.nginx = maybe {
-    virtualHosts."${configuration.mailserver.fqdn}" = {
+    virtualHosts."${config.mailserver.fqdn}" = {
       root = "${mx-webroot}";
     };
   };

@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -13,8 +13,8 @@ let
     optionalAttrs
     hasInfix
     ;
-  hostname = configuration.networking.hostName;
-  has-ipv6 = configuration.networking.enableIPv6 or false;
+  hostname = config.networking.hostName;
+  has-ipv6 = config.networking.enableIPv6 or false;
 
   plain-dns = [ "1.1.1.1" "1.0.0.1" ] ++
     (optionals has-ipv6 [ "2606:4700:4700::1111" "2606:4700:4700::1001" ]);
@@ -51,7 +51,7 @@ in
   };
 
   networking.nameservers =
-    if configuration.services.dnscrypt-proxy2.enable or false then
+    if config.services.dnscrypt-proxy2.enable or false then
       crypt-dns
     else
       plain-dns;
