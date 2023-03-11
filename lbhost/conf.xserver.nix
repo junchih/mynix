@@ -16,7 +16,7 @@ let
   hostname = configuration.networking.hostName;
 
   maybe = optionalAttrs (
-    hostname == "lbmsi"
+    hostname == "msi-pri"
   );
 
 in

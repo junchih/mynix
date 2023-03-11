@@ -14,7 +14,7 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/vda"; # or "nodev" for efi only
 
-  networking.hostName = "lbdot"; # Define your hostname.
+  networking.hostName = "dot-vc2"; # Define your hostname.
 
   # network configuration
   networking.interfaces.ens3.useDHCP = true;

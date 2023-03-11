@@ -27,7 +27,7 @@ in
     (optionals has-X
       [ alacritty ]
     ) ++
-    (optionals (hostname == "lbmsi")
+    (optionals (hostname == "msi-pri")
       [ nvtop /*cudatoolkit*/ ]
     );
 

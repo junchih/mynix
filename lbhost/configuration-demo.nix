@@ -12,7 +12,7 @@ let
 in
 import (mynix + "/lbhost")
   ({ config, pkgs, lib, ... }: {
-    networking.hostName = "lbmsi";
+    networking.hostName = "msi-pri";
     imports = [
       ./hardware-configuration.nix
       ./vault.nix

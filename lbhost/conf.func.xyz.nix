@@ -13,7 +13,7 @@ let
   hostname = configuration.networking.hostName;
 
   maybe = optionalAttrs (
-    hostname == "lbvan"
+    hostname == "none"
   );
 in
 {
@@ -27,6 +27,8 @@ in
   services.nginx = maybe {
     enable = trace "Serving func.xyz" true;
     virtualHosts."func.xyz" = {
+      forceSSL = true;
+      enableACME = true;
       root = "/var/www/func.xyz";
     };
   };

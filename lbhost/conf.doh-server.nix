@@ -14,7 +14,7 @@ let
   hostname = configuration.networking.hostName;
 
   maybe = optionalAttrs (
-    hostname == "lbvan"
+    hostname == "van-vc2"
   );
 
 in

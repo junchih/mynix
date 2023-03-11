@@ -26,7 +26,7 @@ let
 
   hostname = configuration.networking.hostName;
   acting-condition = (
-    hostname == "lbdot"
+    hostname == "dot-vc2"
   );
   maybe = optionalAttrs acting-condition;
 

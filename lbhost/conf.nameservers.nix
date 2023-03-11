@@ -21,8 +21,8 @@ let
   crypt-dns = [ "127.0.0.1" ] ++ (optionals has-ipv6 [ "::1" ]);
 
   maybe = optionalAttrs (
-    hostname == "lbmsi" ||
-    hostname == "lbnuc"
+    hostname == "msi-pri" ||
+    hostname == "nuc-pri"
   );
 
 in

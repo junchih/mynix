@@ -24,8 +24,8 @@ let
   has-token = duckdns-token != "";
 
   host2domain = {
-    lbmsi = "24088207";
-    lbnuc = "61687290";
+    "msi-pri" = "24088207";
+    "nuc-pri" = "61687290";
   };
 
   maybe = optionalAttrs (

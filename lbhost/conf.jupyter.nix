@@ -15,7 +15,7 @@ let
   local-host = "127.0.0.1";
   local-port = 8000;
   maybe = optionalAttrs (
-    hostname == "lbmsi"
+    hostname == "msi-pri"
   );
 in
 {

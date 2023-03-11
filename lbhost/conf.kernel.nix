@@ -11,5 +11,5 @@ let
 in
 {
   boot.supportedFilesystems =
-    optionals (hostname == "lbnuc" || hostname == "lbmsi") [ "ntfs" "apfs" ];
+    optionals (hostname == "nuc-pri" || hostname == "msi-pri") [ "ntfs" "apfs" ];
 }
