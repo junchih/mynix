@@ -1,4 +1,5 @@
-{ ...
+{ mylib
+, ...
 }@file-args:
 
 let
@@ -6,7 +7,7 @@ let
     isFunction
     foldl'
     ;
-  inherit (import ./funny.nix file-args)
+  inherit (mylib)
     I
     ;
 in

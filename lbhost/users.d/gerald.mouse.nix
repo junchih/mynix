@@ -1,15 +1,17 @@
-{ pkgs
+{ configuration
+, pkgs
+, lib
 , ...
 }:
 
 {
-  description = "Lucy Chen";
+  description = "Gerald Mouse";
   isNormalUser = true;
   createHome = true;
   useDefaultShell = true;
   extraGroups = [ ];
   packages = with pkgs; [ ];
 
-  hashedPassword = "!";
+  hashedPassword = configuration.users.users.jack.hashedPassword;
   openssh.authorizedKeys.keys = [ ];
 }

@@ -6,7 +6,7 @@ __seed:
 
 let
 
-  mypkgs = import ../. module-args;
+  mypkgs = import ../. _module-args;
   mylib = mypkgs.lib;
   module-args = _module-args // { inherit mypkgs mylib; };
 
