@@ -10,7 +10,6 @@ let
   mylib = mypkgs.lib;
 
   inherit (builtins)
-    trace
     readDir
     ;
   inherit (lib)
@@ -22,10 +21,6 @@ let
   inherit (mylib)
     binding
     ;
-
-  hostname =
-    let hostname = config.networking.hostName;
-    in trace "HostName: ${hostname}" hostname;
 
   imports = binding
     (mapAttrsToList
