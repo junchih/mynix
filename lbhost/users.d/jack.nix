@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , pkgs
 , ...
@@ -9,8 +9,8 @@ let
   inherit (lib)
     optionals
     ;
-  hostname = configuration.networking.hostName;
-  has-X = configuration.services.xserver.enable or false;
+  hostname = config.networking.hostName;
+  has-X = config.services.xserver.enable or false;
 
 in
 {
@@ -27,7 +27,7 @@ in
     (optionals has-X
       [ alacritty ]
     ) ++
-    (optionals (hostname == "lbmsi")
+    (optionals (hostname == "msi-pri")
       [ nvtop /*cudatoolkit*/ ]
     );
 

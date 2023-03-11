@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -7,9 +7,9 @@ let
   inherit (lib)
     optionals
     ;
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
 in
 {
   boot.supportedFilesystems =
-    optionals (hostname == "lbnuc" || hostname == "lbmsi") [ "ntfs" "apfs" ];
+    optionals (hostname == "nuc-pri" || hostname == "msi-pri") [ "ntfs" "apfs" ];
 }

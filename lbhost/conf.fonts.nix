@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , pkgs
 , lib
 , ...
@@ -8,7 +8,7 @@ let
   inherit (lib)
     optionalAttrs
     ;
-  has-X = configuration.services.xserver.enable or false;
+  has-X = config.services.xserver.enable or false;
 in
 {
   fonts = optionalAttrs has-X {

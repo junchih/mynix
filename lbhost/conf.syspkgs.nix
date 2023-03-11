@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , pkgs
 , lib
 , ...
@@ -9,7 +9,7 @@ let
     optionals
     optionalAttrs
     ;
-  has-X = configuration.services.xserver.enable or false;
+  has-X = config.services.xserver.enable or false;
 in
 {
   environment.systemPackages = with pkgs; [

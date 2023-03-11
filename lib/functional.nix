@@ -1,4 +1,5 @@
-{ ...
+{ mylib
+, ...
 }@file-args:
 
 let
@@ -6,7 +7,7 @@ let
     isFunction
     foldl'
     ;
-  inherit (import ./funny.nix file-args)
+  inherit (mylib)
     I
     ;
 in
@@ -21,6 +22,13 @@ rec {
       if !(isFunction b) then a b
       else c:
         binding a (binding b c);
+
+  # assign: a -> (a -> b) -> (b -> c) -> (c -> d) -> ... -> e
+  # assign a b c d e null == e (d (c (b a)))
+  # like >>= operator in haskell
+  assign = val: f:
+    if f == null then val
+    else assign (f val);
 
   # foldr': (a -> b -> c) -> list -> iv
   # foldr' f [a, b, c] d == f a (f b (f c d))

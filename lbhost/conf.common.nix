@@ -1,4 +1,6 @@
-{ ... }:
+{ config
+, ...
+}:
 
 {
   # This value determines the NixOS release from which the default
@@ -23,10 +25,19 @@
     '';
   };
 
-  # Nix store space optimising
+  # Nix binary cache
   nix.settings = {
-    auto-optimise-store = true;
+    substituters = [
+      "https://func-xyz.cachix.org"
+      "https://cache.nixos.org/"
+    ];
+    trusted-public-keys = [
+      "func-xyz.cachix.org-1:2zBrDzhrnCQpEgVIeGaVIa10//hzev5wQ5+eotk+lkU="
+    ];
   };
+
+  # Nix store space optimising
+  nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
     dates = "03:15";
@@ -34,15 +45,19 @@
     options = "--delete-older-than 7d";
   };
 
+  networking.domain = "lb.func.xyz";
+  networking.search = [ config.networking.domain ];
+
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
+  networking.useDHCP = false;
+  # Enable ipv6 for all
   networking.enableIPv6 = true;
   # The tempAddresses for IPv6 will issue a random v6 IP, which is not able to
   # identify the server. But will leak privacy protecting for private host.
   # Set this for each interface if needed.
   networking.tempAddresses = "disabled";
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
   # Disable network manager, all configuration shall be manually config here
   networking.networkmanager.enable = false;
   # Open ports in the firewall.

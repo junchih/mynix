@@ -2,14 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
+  imports = lib.optionals (builtins.pathExists ./default.nix) [ ./default.nix ];
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "lbnuc"; # Define your hostname.
+  networking.hostName = "nuc-pri"; # Define your hostname.
   networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
   networking.wireless.networks = {
     "Cheesefield" = {

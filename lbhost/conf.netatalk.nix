@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -11,10 +11,10 @@ let
   inherit (lib)
     optionalAttrs
     ;
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
 
   maybe-attrs = optionalAttrs (
-    hostname == "lbmsi" || hostname == "lbnuc"
+    hostname == "msi-pri" || hostname == "nuc-pri"
   );
 
 in

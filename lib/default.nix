@@ -14,6 +14,7 @@ let
         Y S K I B C W;
       inherit (import ./functional.nix importing-args)
         binding
+        assign
         foldr'
         rapply
         lapply

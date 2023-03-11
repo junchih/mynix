@@ -1,4 +1,4 @@
-{ configuration
+{ config
 , lib
 , ...
 }:
@@ -11,11 +11,11 @@ let
   inherit (lib)
     optionalAttrs
     ;
-  hostname = configuration.networking.hostName;
+  hostname = config.networking.hostName;
   local-host = "127.0.0.1";
   local-port = 8000;
   maybe = optionalAttrs (
-    hostname == "lbmsi"
+    hostname == "msi-pri"
   );
 in
 {

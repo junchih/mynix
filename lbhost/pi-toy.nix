@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 
 {
+  imports = lib.optionals (builtins.pathExists ./default.nix) [ ./default.nix ];
   # NixOS wants to enable GRUB by default
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf

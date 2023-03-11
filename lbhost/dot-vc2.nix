@@ -2,9 +2,10 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ ... }:
+{ config, lib, pkgs, ... }:
 
 {
+  imports = lib.optionals (builtins.pathExists ./default.nix) [ ./default.nix ];
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -14,7 +15,7 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/vda"; # or "nodev" for efi only
 
-  networking.hostName = "lbdot"; # Define your hostname.
+  networking.hostName = "dot-vc2"; # Define your hostname.
 
   # network configuration
   networking.interfaces.ens3.useDHCP = true;
