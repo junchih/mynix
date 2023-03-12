@@ -18,12 +18,11 @@ else echo "
 fi
 echo "
 in
-import (mynix + \"/lbhost\")
-  ({ config, pkgs, lib, ... }: {
-    networking.hostName = \"$(hostname)\";
-    imports = [
-      ./hardware-configuration.nix
-      ./vault.nix
-    ];
-  })
+{ config, pkgs, lib, ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ./vault.nix
+    (mynix + "/lbhost/$(hostname).nix")
+  ];
+})
 "

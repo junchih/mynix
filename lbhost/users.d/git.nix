@@ -9,28 +9,28 @@ let
   inherit (builtins)
     trace
     concatLists
+    any
     ;
   inherit (lib)
     filterAttrs
     mapAttrsToList
     ;
+  inherit (config.lib.mylib)
+    binding
+    ;
 
-  attr-users = filterAttrs
-    (name: attr:
-      name != "git" &&
-      !(attr.isSystemUser or false) &&
-      (attr.openssh.authorizedKeys.keys or [ ]) != [ ]
-    )
-    (
-      (config.users.users or { }) //
-      (config.users.extraUsers or { })
-    );
-  user-ssh-keys = mapAttrsToList
-    (user: attr:
-      trace "allow ${user} to git" (attr.openssh.authorizedKeys.keys or [ ])
-    )
-    attr-users;
-  ssh-keys = concatLists user-ssh-keys;
+  ssh-keys = binding
+    concatLists
+    (mapAttrsToList
+      (user-name: user-conf:
+        trace "allow ${user-name} to git"
+          (user-conf.openssh.authorizedKeys.keys or [ ])))
+    (filterAttrs
+      (user-name: user-conf:
+        !(user-conf.isSystemUser or false) &&
+        user-name != "git" &&
+        (any (grp: grp == "git") user-conf.extraGroups)))
+    (config.users.users or { });
 
 in
 {

@@ -9,7 +9,7 @@
   isNormalUser = true;
   createHome = true;
   useDefaultShell = true;
-  extraGroups = [ ];
+  extraGroups = [ "git" ];
   packages = with pkgs; [ ];
 
   hashedPassword = config.users.users.jack.hashedPassword;

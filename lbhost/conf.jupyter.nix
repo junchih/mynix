@@ -28,12 +28,12 @@ in
   security.acme = maybe {
     acceptTerms = true;
     certs = {
-      "jupyter.p6.func.xyz".email = "droopy.mcpoodle@func.xyz";
+      "jupyter.func.xyz".email = "thomas.cat@func.xyz";
     };
   };
   services.nginx = maybe {
-    enable = trace "Serving jupyter.p6.func.xyz" true;
-    virtualHosts."jupyter.p6.func.xyz" = {
+    enable = trace "Serving jupyter.func.xyz" true;
+    virtualHosts."jupyter.func.xyz" = {
       forceSSL = true;
       enableACME = true;
       locations."/" = {

@@ -11,10 +11,13 @@
   ];
 
   nixpkgs.crossSystem.system = "armv6l-linux";
-  system.stateVersion = "22.11";
 
-  nix.settings.substituters = lib.mkForce [ "https://cache.armv7l.xyz" ];
-  nix.settings.trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
+  imports = [
+    <nixpkgs/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix>
+  ];
+
+
+  system.stateVersion = "22.11";
 
   services.openssh.enable = true;
   services.openssh.passwordAuthentication = true;
@@ -28,8 +31,4 @@
     extraGroups = [ "wheel" ];
     password = "raspberry";
   };
-
-  imports = [
-    <nixpkgs/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix>
-  ];
 }

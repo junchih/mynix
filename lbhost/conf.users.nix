@@ -16,12 +16,13 @@ let
     mapAttrs'
     filterAttrs
     nameValuePair
+    optionalAttrs
     ;
   inherit (config.lib.mylib)
     binding
     ;
 
-  user-configs = binding
+  user-confs = binding
     (mapAttrs'
       (file-name: _:
         let user = removeSuffix ".nix" file-name;
@@ -32,6 +33,15 @@ let
       (file-name: file-type:
         file-type == "regular" && hasSuffix ".nix" file-name))
     readDir ./users.d;
+
+  group-confs = binding
+    (mapAttrs'
+      (_: user-conf:
+        nameValuePair user-conf.group { }))
+    (filterAttrs
+      (_: user-conf:
+        (user-conf.group or "") != ""))
+    user-confs;
 
 in
 {
@@ -46,5 +56,6 @@ in
   # set ~/bin into $PATH
   environment.homeBinInPath = true;
 
-  users.users = user-configs;
+  users.users = user-confs;
+  users.groups = group-confs;
 }

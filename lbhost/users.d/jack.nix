@@ -18,7 +18,7 @@ in
   isNormalUser = true;
   createHome = true;
   useDefaultShell = true;
-  extraGroups = [ "wheel" ];
+  extraGroups = [ "wheel" "git" ];
   packages = with pkgs;
     # normal life
     [ dnsutils ] ++
