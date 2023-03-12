@@ -1,30 +1,65 @@
 { config
+, pkgs
 , lib
 , ...
 }:
 
 let
+
   inherit (builtins)
     trace
     toString
     ;
   inherit (lib)
+    optionals
     optionalAttrs
     ;
+
   hostname = config.networking.hostName;
   local-host = "127.0.0.1";
   local-port = 8000;
   maybe = optionalAttrs (
     hostname == "msi-pri"
   );
+
+  ipy3sci = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+    ipykernel
+    matplotlib
+    numpy
+    scipy
+    scikit-learn
+  ] ++ (if hostname == "msi-pri" then [
+    cupy
+    tensorflowWithCuda
+  ] else [
+    tensorflow
+  ]));
+
 in
 {
+
   services.jupyterhub = maybe {
+
     enable = trace "Enable jupyterhub service" true;
     authentication = "jupyterhub.auth.PAMAuthenticator";
     host = local-host;
     port = local-port;
+
+    kernels.ipy3sci = {
+      displayName = "Python 3 for Scientific";
+      language = "python3";
+      logo32 = "${ipy3sci}/${ipy3sci.sitePackages}/ipykernel/resources/logo-32x32.png";
+      logo64 = "${ipy3sci}/${ipy3sci.sitePackages}/ipykernel/resources/logo-64x64.png";
+      argv = [
+        "${ipy3sci.interpreter}"
+        "-m"
+        "ipykernel_launcher"
+        "-f"
+        "{connection_file}"
+      ];
+    };
   };
+
   security.acme = maybe {
     acceptTerms = true;
     certs = {

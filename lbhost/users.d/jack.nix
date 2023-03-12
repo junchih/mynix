@@ -28,7 +28,7 @@ in
       [ alacritty ]
     ) ++
     (optionals (hostname == "msi-pri")
-      [ nvtop /*cudatoolkit*/ ]
+      [ nvtop cudatoolkit ]
     );
 
   hashedPassword = "$y$j9T$CWXs5NEnz1kfkeNP/HK7X0$pZmGawGlwQ7/LsfLUAp96jMQnNNbyCmzt5I/8SAemp.";
