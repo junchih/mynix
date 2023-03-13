@@ -29,10 +29,12 @@
   nix.settings = {
     substituters = [
       "https://func-xyz.cachix.org"
+      "https://ihaskell.cachix.org"
       "https://cache.nixos.org/"
     ];
     trusted-public-keys = [
       "func-xyz.cachix.org-1:2zBrDzhrnCQpEgVIeGaVIa10//hzev5wQ5+eotk+lkU="
+      "ihaskell.cachix.org-1:WoIvex/Ft/++sjYW3ntqPUL3jDGXIKDpX60pC8d5VLM="
     ];
   };
 

@@ -22,14 +22,18 @@ let
     hostname == "msi-pri"
   );
 
-  ipy3sci = pkgs.python3.withPackages (pyPkgs: with pyPkgs; [
+  ipy3-pkgs = py-pkgs: with py-pkgs; [
     ipykernel
     matplotlib
     numpy
     scipy
     scikit-learn
     tensorflow
-  ]);
+  ];
+  ihask-pkgs = hs-pkgs: with hs-pkgs; [
+    ihaskell
+    lens
+  ];
 
 in
 {
@@ -41,19 +45,32 @@ in
     host = local-host;
     port = local-port;
 
-    kernels.ipy3sci = {
-      displayName = "Python 3 for Scientific";
-      language = "python3";
-      logo32 = "${ipy3sci}/${ipy3sci.sitePackages}/ipykernel/resources/logo-32x32.png";
-      logo64 = "${ipy3sci}/${ipy3sci.sitePackages}/ipykernel/resources/logo-64x64.png";
-      argv = [
-        "${ipy3sci.interpreter}"
-        "-m"
-        "ipykernel_launcher"
-        "-f"
-        "{connection_file}"
-      ];
-    };
+    kernels.ipy3-sci =
+      let ipy3 = pkgs.python3.withPackages ipy3-pkgs;
+      in {
+        displayName = "Python3 for Sci";
+        language = "python3";
+        argv = [
+          "${ipy3.interpreter}"
+          "-m"
+          "ipykernel_launcher"
+          "-f"
+          "{connection_file}"
+        ];
+      };
+    kernels.ihask-cs =
+      let hask = pkgs.haskellPackages.ghcWithPackages ihask-pkgs;
+      in {
+        displayName = "Haskell for CS";
+        language = "haskell";
+        argv = [
+          "${hask}/bin/ihaskell"
+          "kernel"
+          "-l"
+          "${hask}/lib/ghc-${hask.version}"
+          "{connection_file}"
+        ];
+      };
   };
 
   security.acme = maybe {
