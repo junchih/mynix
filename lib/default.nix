@@ -12,9 +12,15 @@ let
     {
       inherit (import ./funny.nix importing-args)
         Y S K I B C W;
-      inherit (import ./functional.nix importing-args)
+      inherit (import ./brackets.nix importing-args)
         binding
         assign
+        nArg
+        nArg1
+        nArg2
+        nArg3
+        nArg4
+        nArg5
         foldr'
         rapply
         lapply
