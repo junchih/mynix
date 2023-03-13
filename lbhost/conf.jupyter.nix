@@ -22,18 +22,14 @@ let
     hostname == "msi-pri"
   );
 
-  ipy3sci = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+  ipy3sci = pkgs.python3.withPackages (pyPkgs: with pyPkgs; [
     ipykernel
     matplotlib
     numpy
     scipy
     scikit-learn
-  ] ++ (if hostname == "msi-pri" then [
-    cupy
-    tensorflowWithCuda
-  ] else [
     tensorflow
-  ]));
+  ]);
 
 in
 {
